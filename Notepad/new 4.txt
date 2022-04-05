@@ -1,0 +1,216 @@
+/**
+* @description : This class is used to Call AWS server and get the account and Contacts Information
+**/
+public with sharing class ImportAccountContactsAwsClass {
+private final static String callOut = 'callout';
+private final static String semiColon = ':';
+private final static String GET = 'GET';
+private final static String namedCredential = 'AWS_Account_Contact';
+private final static String awsBucketName = '/devendra-accounts-contacts/';
+private final static String accountDetails = 'Account-CSV-Import.csv';
+private final static String contactDetails = 'Contact-CSV-Import.csv';
+private final static String contentType = 'Content-Type';
+private final static String dataTypeJson = 'application/json';
+private final static String accept = 'Accept';
+private final static String accountsLoadedMessage = 'Accounts are Loaded Successfully!!';
+private final static String contactsLoadedMessage = 'Contacts are Loaded Successfully!!';
+private final static String accountsLoadedErrorMessage = 'Accounts are already Loaded';
+private final static String contactsLoadedErrorMessage = 'Contacts are already Loaded';
+private final static String accountsContactsLoadedMessage = 'Account and Contacts Loaded Successfully!!';
+private final static String accountsContactsErrorMessage = 'The Data you are trying to enter is already Loaded!!';
+/**
+* @description: This method calls the FetchAccount and FetchContact Methods
+**/
+@AuraEnabled
+public static String fetchAccountContactsFromAWS(){
+HTTPResponse accountresponse = fetchAccountsFromAWS();
+
+String accountOutputJson = parseHttpResponse(accountresponse.getBody());
+
+List<accountDetailsWrapper> accDetailsWrapperList = (List<accountDetailsWrapper>)JSON.deserialize(accountOutputJson,List<accountDetailsWrapper>.class);
+HTTPResponse contactresponse = fetchContactsFromAWS();
+String contactOutputJson = parseHttpResponse(contactresponse.getBody());
+List<contactDetailsWrapper> conDetailsWrapperList = (List<contactDetailsWrapper>)JSON.deserialize(contactOutputJson,List<contactDetailsWrapper>.class);
+
+String accountsDmlMessage = '',contactsDmlMessage = '';
+if(!accDetailsWrapperList.isEmpty()){
+accountsDmlMessage = dmlAccounts(accDetailsWrapperList);
+}
+if(!conDetailsWrapperList.isEmpty()){
+contactsDmlMessage = dmlContacts(conDetailsWrapperList);
+}
+if(accountsDmlMessage == accountsLoadedMessage || contactsDmlMessage == contactsLoadedMessage){
+return accountsContactsLoadedMessage;
+}
+else if(accountsDmlMessage == accountsLoadedErrorMessage || contactsDmlMessage == contactsLoadedErrorMessage){
+return accountsContactsErrorMessage;
+}
+return '';
+}
+/**
+* @description: This method calls parseHttpResponse method and passes the CSV for parsing
+**/
+public static String parseHttpResponse(String csv){
+CsvParserAws parser = new CsvParserAws();
+List<Map<String, String>> jsonOutput = parser.parseCsv(csv);
+String jsonOutputString = JSON.serialize(jsonOutput);
+return jsonOutputString;
+}
+/**
+* @description: This method Used Upsert on Accounts
+**/
+public static String dmlAccounts(List<accountDetailsWrapper> accDetailsWrapperList){
+List<Account> accountList = new List<Account>();
+for(accountDetailsWrapper accWrapper:accDetailsWrapperList){
+Account acc = new Account();
+acc.Name = (accWrapper.Name !=null ? accWrapper.Name: '');
+acc.Phone = (accWrapper.Phone !=null ? accWrapper.Phone: '');
+if(accWrapper.AccountNumber !=null){
+acc.Account_Number__c = decimal.valueOf(accWrapper.AccountNumber);
+}
+acc.Industry = (accWrapper.Industry != null ? accWrapper.Industry : '');
+accountList.add(acc);
+}
+Database.UpsertResult[] upsertResultList = Database.upsert(accountList,false);
+Set<Id> successSet = new Set<Id>();
+Set<Id> failureSet = new Set<Id>();
+List<Database.Error> errorList = new List<Database.Error>();
+if(!upsertResultList.isEmpty()){
+for(Database.UpsertResult result:upsertResultList){
+if(result.isSuccess()){
+successSet.add(result.getId());
+}else{
+errorList.addall(result.getErrors());
+failureSet.add(result.getId());
+}
+}
+}
+if(!successSet.isEmpty()){
+// system.debug('successSet ==>'+successSet);
+return accountsLoadedMessage;
+}
+if(!errorList.isEmpty()){
+//system.debug('errorList ==>'+errorList);
+//system.debug('errorList size ==>'+errorList.size());
+return accountsLoadedErrorMessage;
+}
+return accountsLoadedMessage;
+}
+/**
+* @description: This method Used Upsert on Contacts
+**/
+public static String dmlContacts(List<contactDetailsWrapper> conDetailsWrapperList){
+Set<Decimal> accNumberSet = new Set<Decimal>();
+for(contactDetailsWrapper conWrapper:conDetailsWrapperList){
+accNumberSet.add(decimal.valueOf(conWrapper.AccountNumber));
+}
+
+List<Account> accList = new List<Account>();
+try{
+accList = [select Id,Account_Number__c from Account where Account_Number__c in :accNumberSet];
+}
+catch(Exception e){
+system.debug('Error in fetching the accounts with account numbers given :'+e.getMessage());
+}
+
+Map<Decimal,Id> accountNumberIdMap = new Map<Decimal,Id>();
+if(!accList.isEmpty()){
+for(Account acc:accList){
+accountNumberIdMap.put(acc.Account_Number__c,acc.Id);
+}
+}
+
+List<Contact> contactList = new List<Contact>();
+for(contactDetailsWrapper conWrapper:conDetailsWrapperList){
+Contact con = new Contact();
+con.LastName = (conWrapper.LastName!=null ? conWrapper.LastName:'');
+con.FirstName = (conWrapper.FirstName!=null ? conWrapper.FirstName : '');
+if(conWrapper.AccountNumber !=null){
+con.Account_Number__c = decimal.valueOf(conWrapper.AccountNumber);
+}
+con.Email = (conWrapper.Email!=null ? conWrapper.Email:'');
+con.Phone = (conWrapper.Phone!=null ? conWrapper.Phone:'');
+if(accountNumberIdMap.containsKey(Decimal.valueOf(conWrapper.AccountNumber))){
+con.AccountId = accountNumberIdMap.get(Decimal.valueOf(conWrapper.AccountNumber));
+}
+contactList.add(con);
+}
+Database.UpsertResult[] upsertResultList = Database.upsert(contactList,false);
+Set<Id> successSet = new Set<Id>();
+Set<Id> failureSet = new Set<Id>();
+List<Database.Error> errorList = new List<Database.Error>();
+for(Database.UpsertResult result:upsertResultList){
+if(result.isSuccess()){
+successSet.add(result.getId());
+}else{
+errorList.addall(result.getErrors());
+failureSet.add(result.getId());
+}
+}
+if(!successSet.isEmpty()){
+// system.debug('successSet ==>'+successSet);
+return contactsLoadedMessage;
+}
+if(!errorList.isEmpty()){
+
+
+return contactsLoadedErrorMessage;
+}
+return '';
+}
+public static HTTPResponse fetchAccountsFromAWS(){
+HttpRequest request = httpRequestBuilder(accountDetails);
+HTTPResponse response = awsCallout(request);
+return response;
+}
+public static HTTPResponse fetchContactsFromAWS(){
+HttpRequest request = httpRequestBuilder(contactDetails);
+HTTPResponse response = awsCallout(request);
+return response;
+}
+/**
+* @description: This method Builds the HTTP request
+**/
+public static HttpRequest httpRequestBuilder(String accOrContact){
+HttpRequest req = new HttpRequest();
+req.setEndpoint(callOut + semiColon + namedCredential + awsBucketName + accOrContact);
+req.setMethod(GET);
+req.setHeader(contentType,dataTypeJson);
+req.setHeader(accept,dataTypeJson);
+return req;
+}
+/**
+* @description: This method Calls the AWS server
+**/
+public static HTTPResponse awsCallout(HttpRequest request){
+Http http = new Http();
+HTTPResponse response;
+try {
+response = http.send(request);
+}
+catch(Exception e){
+throw new AuraHandledException('Error from AWS server');
+}
+return response;
+}
+/**
+* @description: This is Wrapper calss for holding contacts data
+**/
+public class contactDetailsWrapper{
+public String LastName {set;get;}
+public String FirstName {set;get;}
+public String AccountNumber {set;get;}
+public String Email {set;get;}
+public String Phone {set;get;}
+}
+/**
+* @description: This is Wrapper calss for holding Accounts data
+**/
+public class accountDetailsWrapper{
+public String Name {set;get;}
+public String Phone {set;get;}
+public String AWSid {set;get;}
+public String Industry {set;get;}
+public String AccountNumber {set;get;}
+}
+}

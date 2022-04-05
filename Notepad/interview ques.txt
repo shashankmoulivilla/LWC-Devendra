@@ -1,0 +1,278 @@
+
+1.	OOps concept, access specifier, override – overloading
+2.	Aura and LWC, JavaScript, platform events
+3.	OOB and customization
+4.	Sharing model (OWD, profile, role, FLS, permission set, sharing rule, apex sharing) , how can we restrict access or can we restrict access with sharing rule?
+5.	Shield
+6.	Integration and async apex (all types)
+7.	SOQL, SOSL
+8.	Lightning (Aura, LWC), Lightning Message service
+9.	How LWC and Platform events work together
+10.	Best practices in apex coding, test class writing, governor limit
+11.	SFDC Order of execution
+12.	CPQ knowledge
+13.	Community licensing, deploying
+14.	Design patterns (Apex, Integration)
+15.	Batch and future class syntax, how to call it from test class
+16.	How to create multi-lingual Communities
+17.	Update the record using Lightning Flow , taking care of new and old value
+18.	Before and after trigger, new and old, what is accessible
+19.	REST and SOAP api
+20.	Agile methodology, sprint processes and connect, Scrum meeting, backlog grooming, planning, story points, Stand up, demo, retrospect
+21.	CICD and devOps tool (Git, SFDX, BitBucket, ANT…..)
+
+
+shell interviews
+
+Shell Question’s:
+
+-How to store email data in custom object by customer email?
+-How to track Rich area text field? Tracking field is not allowed
+-How to count number of contacts on account?
+All scenarios explained-Delete, Create, update.
+
+1)	What is that feature available in VF pages and not in LWC or Aura that makes it useful – PDF generation 
+2)	How to count number of contacts on account? (Apart from Triggers what options we have) – 
+3)	How to restrict deletion of parent objects even if it has 1 child record(Apart from before delete) – (while configuring lookup fields we can go with the option don’t allow deletion of lookup field value)
+4)	How to track Rich area text field? Tracking rich text field is not allowed – (Workflow field update + new Text Area || custom objects)
+5)	A new application was onboarded with 50 profiles with salesforce platform license,
+how to grant a user access to it having salesforce license?
+6)	What is that maximum timeout for HTTP Callouts – 120s
+7)	How to store email data in custom object by customer email? – 
+
+-Sales team and Service team data- How to share one team data to manager of other team.
+
+A new application was onboarded with 50 profiles with salesforce platform license,
+how to grant a user access to it having salesforce license?
+
+How component interact with backhand data in aura?
+
+Can component directly call helper?
+Can component directly call backend?
+
+difference b/w helper and controller.js
+
+how to create multiple user in single go in an org?
+
+
+
+
+
+
+here are some of the questions we noted from prior CI round so sharing for your preparation: 
+1. what is purpose of uiRecordApi import. 
+ to get records data and default values
+2. what are the files created in LWC. 
+  js,html,meta-xml
+3. how many files created in L WC. 
+ 3
+4. what is the purpose of myComponent.js-meta.xml.  
+  implements interfce
+5. write the pseudocode code for imperatively method in LWC .
+
+6. what is the purpose of refreshApex method even @wire functionality is in LWC.
+7. how to pass parameter to server method.
+
+8. how many decorators in LWC.  
+track,api,wire
+9. what is the purpose of @track decorator.
+   to track the changes in varaibles
+10. how may way to create variable in js.
+  let,var,const
+11. how to js identify variable types like string, number, map, array, etc.
+   typeOf
+12. what id difference between LWC and Aura Component.
+13. why LWC is lightweight.
+Because of the absence of an abstraction layer, LWC is likely to load and run much faster than Aura components. It is also lightweight and memory-efficient as it is built on Web Components.
+14. how to use custom label inside LWC.
+import labelName from '@salesforce/label/label-referen
+15. how to use list of custom labels inside LWC.
+
+16. how to de-activate user when user created in system.
+17. can we create and assign custom layout for user object.
+18. how to create picklist option from myComponent.js-meta.xml file.
+LWC : 1. What aura has that LWC doesn't that makes you use aura on lwc.
+2. How to display variables on templates in lwc.
+Aura :1. How to pass parameters to child component from parent if there are no events are allowed like component event or application event?
+2. For component event, how the event propagates in steps like first root to source or source that fired the event to root of the component tree.
+3. How will you handle an event in only one phase like only in bubble phase or capture phase?
+4. Tell verbally syntax of apex function call on aura.
+5. How to optimize server call if I am making server call repeatedly for the same parameters.(setStorable and cacheable) 
+Trigger : 1. In before insert, do we have trigger.old and do we have trigger.newmap
+2. Write a trigger for each newly inserted contact which doesn’t have an account to insert an account for each of them on insertion.
+3. If you have lookup relationship how to have rollup summary calculation done on parent record?
+Sharing: 1. If a user have read access for an object on its profile and read write access on the object's record will that user be able to edit the record and why?
+2. If we have two users with same profile having edit access to a sobject, how to give edit access to one user and read only access to another user for the records of that sobject optimally?
+3. If I have a custom object and while trying to add sharing rule for the object , I can't find its sharing rules option in sharing settings. What is the reason and if multiple tell all.
+Configuration : 1. How to convert lookup to master detail relationship?
+2. Give example of junction object or explain junction object.
+•  Apex programming basic concepts like bulkified triggers, trigger best practices, transaction execution details 
+•  lightning web components, salesforce integration. 
+•  Scenario based questions will get asked around OWD, security and object modelling.
+
+how to provide on-demand sharing in an object which is private by default.
+
+for an N scope variable size in Batch, how many records will come in List<sObject>. And if I am updating 2000 records at one go, how many records trigger will process in each set. 
+
+-------------NetWaste ----
+
+•  Salesforce Data modal Question
+a>. scenario : you have car object and salesPerson and buyer Please design data modal for client with objects to store all info.
+b>. Security question on above data modal. Like If we put OWD setting for buyer as private then what Happen. 
+•  Question on LWC Events, connected call back function and how we will connect aura to LWC and stages in LWC.
+a>. What is property in LWC.
+b>. why we use property in LWC.
+c>. different type of Property in LWC. 
+•  Question on Lightning.
+a>. What is LDS in lightning and how you will achieve same thing in LWC. 
+b>. What interface you use to display lightning comp in Community. 
+•  what is future method and can we call it from trigger. 
+•  scenario to schedule a class when ever account field value get change. 
+•  difference between workflow and process builder.
+
+
+Below are the questions asked:
+Configuration:
+Create data model for sales representative when a user come to purchase a car.
+How to avoid one Sales person data not to be shown to other?
+Can the data be seen by manager directly or any setting required?
+if a user want to see data of another user only how can we do that
+Diff b/w manual sharing and apex sharing?
+profile permission set scenarios
+How can we control record visibility in global search?
+Customization:
+Bulkification of triggers means what?
+How to stop recursion using static variable?
+Before and after undelete?
+Can we filter records in standard related list without using code?
+LWC: 
+Lifecycle hooks ?
+How to pass parameter from parent to child component in LWC
+Integration:
+Connected apps and implementation?
+How to Control object access using connected apps?
+GIT:
+How to get code from repository ?
+How to remove conflicts?
+
+---------------- Syngenta ------------------------------
+
+•	Community - licensing 
+•	Sharing  - how do you restrict users of one customer  from seeing data for another customer 
+•	How do you change contact name whenever account name is changed 
+•	How would you implement one to one relationship between account and contact 
+•	What is the order of execution when you save a record 
+•	How do you developer a LWC component to show roll-up summary field dynamically for any object, e.g. opportunities for an account, cases for an account   
+•	How do you deploy Community 
+•	How do you support multiple languages in a single community 
+•	Batch processing 
+•	What is Future method 
+
+1.	Difference between static and non-static keyword in variable and methods
+2.	Oop’s concept
+3.	LWC Decorators difference
+4.	Process builders / workflow and flows difference (When to use what),
+5.	Integration Issues(What issue we generally face in integration, Oauth 2.0, Salesforce to Salesforce integration )
+6.	Platform events and its uses in integrating real time data
+7.	How to debug JS in LWC (Breakpoints, Watch, Call stack), and its best practices
+8.	Why to use future for callout?
+9.	Difference Between Sync & Async process
+10.	With sharing and without sharing difference (Why to use without sharing explicitly when it is the default).
+11.	Constructors of method (How to call method of one class in another class).
+12.	LWC public and private reactive properties.
+13.	Junction objects 
+14.	LWC Lifecycle
+
+----------------------------------------- Vertex -------------------------------------------
+
+1.	Do you have experience with agile methodologies? What are all the ceremonies/calls/meetings in Agile?
+2.	Integration case study from your past project implementation.
+a.	What is your experience in integration? Any knowledge on REST or SOAP Api callouts? And follow up questions like how was it implemented?
+3.	Unit tests: What approach do you take while doing unit testing and writing test classes.
+4.	Effective ways of error handling and error logging
+5.	How much do you know about CPQ?
+6.	Experience with managed package if any
+7.	Experience of interacting with end users
+8.	Experience in CI/CD and GitHub
+
+MasterCard prep --------
+Lighting
+1) there is one div in the lightning component and when it call from js its giving error what can be the possible reasons
+2) application event and component event
+3) how to display image in lighting component
+4) There are two components A and B  .  If data needs to send from B to A or A to B how we can send .
+
+LWC
+1) events in lwc
+2) If there are 2 components which are not linked with each other and i want to pass the data from one component to another how we can send in lwc
+
+3) trigger
+Two objects A is parent and B is child
+There is one amount field is present on B object .
+Whenever amount is updated or added needs to display updated value in object A custom field.
+Explain which events will use here
+Explain how will you write trigger step by step
+
+
+4) integration process
+Explain about previous project integrations done
+
+4.1 ) what is connected apps And Types
+
+4.2) Which web service use in previous projects
+
+
+5) previous project overview
+
+6) deployment tool used in previous project
+------------------------------------------------------ Shell ------------------------------------
+
+1)	What is that feature available in VF pages and not in LWC or Aura that makes it useful – PDF generation 
+2)	How to count number of contacts on account? (Apart from Triggers what options we have) – 
+3)	How to restrict deletion of parent objects even if it has 1 child record(Apart from before delete) – (while configuring lookup fields we can go with the option don’t allow deletion of lookup field value)
+4)	How to track Rich area text field? Tracking rich text field is not allowed – (Workflow field update + new Text Area || custom objects)
+5)	A new appliction was onboarded with 50 profiles with salesforce platform licence,
+how to grant a user access to it having salesforce licence?
+6)	What is that maximum timeout for HTTP Callouts – 120s
+How to store email data in custom object by customer email?
+
+
+POLSOURCE Interview Questions
+===========================
+They asked about your technical exp and what are the areas you worked and which product do you like in salesforce.
+1.	What is Polymorphism in Apex (Method overloading and overriding)?
+2.	In which scenario u used the Polymorphism?
+3.	What is abstract method and interface and when u used that?
+4.	What are apex design patterns and why we need to follow?
+5.	Explain about the singleton pattern and where we are using this pattern?
+6.	What is mixed-dml exception how to resolve this issue?
+7.	It is possible to use lwc outside salesforce, if yes how can achieve this?
+8.	What are the Decorator in lwc?
+9.	What is shadow dom and how to add the css to shadow element?
+10.	How many ways we can pass the data from child to parent using lwc?
+
+What is the wrong the with below code how to resolve this code as per best practices? 
+List<MyOtherObject__c> myOtherObjects = new List<MyOtherObject__c>();
+for (Integer index = 0; index < csvFileLines.size(); ++index) {
+	String[] csvRecordValues = csvFileLines[index].split(',');
+	List<Contact> contacts = [SELECT Name FROM Contact WHERE Name = :csvRecordValues[10] Limit 1];
+	if (contacts.isEmpty()) {
+		Contact aContact = new Contact();
+		List<String> nameTokens = csvRecordValues[10].split('\\s');
+		aContact.FirstName = nameTokens[0];
+		aContact.LastNAme = nameTokens[1];
+    try {
+    	insert aContact;
+    }
+    catch (Exception ex) {
+      ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Error creating contact!'));System.debug(ex.getMessage());
+    	return;
+    }
+	}
+  myOtherObjects.ContactLookup = [SELECT Id FROM Contact WHERE Name = :csvRecordValues[10] limit 1].Id;
+}
+
+
+
+
+
