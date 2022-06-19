@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Account creation Imperatively">
+        
+        <lightning-input-field type="text" label="Account Phone" onchange={callPhone}></lightning-input-field>
+        <lightning-input type="text" label="Account Fax" onchange={callFax}></lightning-input>
+        <lightning-input type="text" label="Account Industry" onchange={callIn}></lightning-input>
+        <lightning-input type="text" label="Active" onchange={callactive}></lightning-input>
+        <lightning-input field-name={name}></lightning-input>
+
+        <lightning-button label="Save" onclick={saveMe}></lightning-button>
+ 
+
+    </lightning-card>
+    
+</template>

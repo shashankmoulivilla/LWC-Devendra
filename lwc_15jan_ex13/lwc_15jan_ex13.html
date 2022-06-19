@@ -1,0 +1,19 @@
+<template>
+    <lightning-card title="Search Contact with WIRE">
+        <lightning-input label="Enter Search Text" type="search" value={searchkey} onchange={searchMe}></lightning-input>
+        <template if:true={contact.data}>
+            <template for:each={contact.data} for:item="con">
+                <p key={con.id}>Name : {con.Name}</p> 
+                <p key={con.id}>Phone : {con.Phone}</p>
+                <p key={con.id}>Email : {con.Email}</p> 
+           
+            </template>
+
+        </template>
+        <template if:true={contact.error}>
+            We cant display the result due to {contact.error}. Please try again
+
+        </template>
+    </lightning-card>
+    
+</template>

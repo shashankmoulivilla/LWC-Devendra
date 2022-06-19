@@ -1,0 +1,39 @@
+<template>
+    <c-lwc_patient_form ontherapy={displayThera} onnursing={displayNurs} > </c-lwc_patient_form>
+    <lightning-card>
+        <lightning-record-edit-form  object-api-name="Service__c" onsubmit={subbb} >
+             
+             <div class="slds-grid">
+                 <div class="slds-col slds-size_1-of-4" >
+         <template if:true={showFields}>
+             <lightning-input-field field-name="Specialty__c"></lightning-input-field>
+                 <lightning-input-field field-name="Preferred_day_of_the_week__c"></lightning-input-field>
+                 <lightning-input-field field-name="Preferred_Time_Of_Day__c"></lightning-input-field>
+                 <lightning-input-field field-name="Message__c"></lightning-input-field>
+                 <lightning-input-field field-name="Patient_Id__c"  ></lightning-input-field>
+             
+         </template>
+         </div>
+         
+             <div class="slds-col slds-size_1-of-4" >
+         <template if:true={showNFields}>
+             <lightning-input-field field-name="Supportive_Care__c"></lightning-input-field>
+                 <lightning-input-field field-name="Service__c"></lightning-input-field>
+                 <lightning-input-field field-name="Preferred_day_of_the_week_Nursing__c"></lightning-input-field>
+                 <lightning-input-field field-name="Preferred_Time_Of_Day_Nursing__c"></lightning-input-field>
+                 <lightning-input-field field-name="Message_Nursing__c"></lightning-input-field>
+                 <lightning-input-field field-name="Patient_Id__c" disabled value={Id} ></lightning-input-field>
+             
+         </template>
+             </div>
+             </div>
+             <div class="slds-align_absolute-center slds-p-around_medium">
+                 <lightning-button class="slds-m-around_xx-small" label="Cancel" onclick={handleReset}></lightning-button>
+                 <lightning-button class="slds-m-around_xx-small" label="Save" type="submit" variant="brand" ></lightning-button>
+             </div>
+             
+     </lightning-record-edit-form>
+     </lightning-card>
+
+    
+</template>

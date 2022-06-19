@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Greater of three Numbers">
+        <lightning-input label="Enter First Number" onchange={firstNum} value={num1}></lightning-input>
+        <lightning-input label="Enter Second Number" onchange={secondNum} value={num2}></lightning-input>
+        <lightning-input label="Enter Third Number" onchange={thirdNum} value={num3}></lightning-input>
+        <lightning-button-group>
+            <lightning-button label="Calculate" onclick={calculateMe}></lightning-button>
+            <lightning-button label="Clear All" onclick={clearMe}></lightning-button>
+
+        </lightning-button-group>
+        
+
+    </lightning-card>
+    
+</template>

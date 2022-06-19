@@ -1,0 +1,120 @@
+<template>
+    <lightning-card>
+  <lightning-tabset>
+    <lightning-tab label="Patient Details" class=".slds-theme_default">
+                <lightning-card title="Patient Information:">
+                <lightning-record-edit-form  object-api-name="Contact"  onsuccess={handleSuccess} data-id="contactTab">
+                <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-4" >
+                    <lightning-input-field field-name="FirstName"></lightning-input-field>
+                    <lightning-input-field field-name="Middle_Name__c"></lightning-input-field>
+                    <lightning-input-field field-name="LastName"></lightning-input-field>
+                    <lightning-input-field field-name="Birthdate"></lightning-input-field>                    
+                </div>
+                
+                
+                <div class="slds-col slds-size_1-of-4">
+                    
+                    <lightning-input-field field-name="Email"></lightning-input-field>
+                    <lightning-input-field field-name="HomePhone"></lightning-input-field>
+                    <lightning-input-field field-name="Gender__c"></lightning-input-field>
+                    <lightning-input-field field-name="Marital_Status__c"></lightning-input-field><br>
+                </div>      
+                <div class="slds-col slds-size_1-of-4 alignment">
+                    <header><b>Patient Care Services:</b></header><br>
+                    <lightning-input type="checkbox" label="Therapy Service" onchange={toggleFields} ></lightning-input>              
+                    <lightning-input type="checkbox" label="Nursing Service" onchange={toggleNFields} ></lightning-input>
+                </div>
+                </div>
+                <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-4">
+                    <template if:true={showFields}>
+                    <lightning-card title="Therapy Services">
+                    <lightning-record-edit-form  object-api-name="Service__c" record-type-id={recordTypeId1} onsuccess={handleTServiceSaveSuccess} data-id="serviceForm">
+                        <lightning-input-field field-name="Specialty__c"></lightning-input-field>
+                        <lightning-input-field field-name="Preferred_day_of_the_week__c"></lightning-input-field>
+                        <lightning-input-field field-name="Preferred_Time_Of_Day__c"></lightning-input-field>
+                        <lightning-input-field field-name="Message__c"></lightning-input-field>
+                        <lightning-input-field field-name="Patient_Id__c" data-id="contactServiceId" class="hidden"></lightning-input-field>
+                   </lightning-record-edit-form>
+                   </lightning-card>
+                   </template>
+                   
+                </div>
+            
+                   <div class="slds-col slds-size_1-of-4">
+                   
+                    <template if:true={showNFields}>
+                    <lightning-card title="Nursing Services">
+                    <lightning-record-edit-form  object-api-name="Service__c" record-type-id={recordTypeId} onsuccess={handleTServiceSaveSuccess} data-id="serviceForm">
+                    <lightning-input-field field-name="Supportive_Care__c"></lightning-input-field>
+                    <lightning-input-field field-name="Service__c"></lightning-input-field>
+                    <lightning-input-field field-name="Preferred_day_of_the_week_Nursing__c"></lightning-input-field>
+                    <lightning-input-field field-name="Preferred_Time_Of_Day_Nursing__c"></lightning-input-field>
+                    <lightning-input-field field-name="Message_Nursing__c"></lightning-input-field>
+                <lightning-input-field field-name="Patient_Id__c" data-id="contactServiceId" class="hidden"></lightning-input-field>
+
+                </lightning-record-edit-form>
+                </lightning-card>
+                </template>
+                
+                </div>
+                </div>
+                </lightning-record-edit-form>
+                <div class="slds-align_absolute-center slds-p-around_medium">
+                <lightning-button class="slds-m-around_xx-small" label="Cancel" onclick={handleReset}></lightning-button>
+                <lightning-button class="slds-m-around_xx-small" label="Save" type="button" variant="brand" onclick={handleSavee}></lightning-button>
+                </div>
+                </lightning-card>   
+    </lightning-tab>
+        <lightning-tab label="Search Patient Details" class=".slds-theme_inverse">
+              <lightning-card title="Patient Services" icon-name="custom:custom63">
+                     <div class="slds-align_absolute-center slds-p-around_medium">
+                        <lightning-input label="Enter Medical Record" type="search" value={searchkey} placeholder="0000" onchange={searchMe}></lightning-input>
+                    </div>
+                    <div class="slds-m-around_medium">
+                     <template if:true={wiredpatientwithServices.data}>
+                     <template for:each={wiredpatientwithServices.data} for:item="patientServices">
+                       <div key={patientServices.conRecord.Id}>
+                        <h1><b>Patient Info</b></h1>
+                        <div><b>Name</b> : {patientServices.conRecord.Name}</div>
+                        <div><b>Gender</b> : {patientServices.conRecord.Gender__c}</div>
+                        <div><b>BirthDate</b> : {patientServices.conRecord.Birthdate}</div>
+                        <div><b>Email</b> : {patientServices.conRecord.Email}</div>
+                        <div><b>Phone</b> : {patientServices.conRecord.HomePhone}</div>       
+                        <div><b>Marital Status</b> : {patientServices.conRecord.Marital_Status__c}</div> 
+                        <div><b>Medical Record #</b>:{patientServices.conRecord.Medical_Record__c}</div>
+                        <br>        
+                      </div>
+             
+                <template if:true={patientServices.contactList} >
+                    <template for:each={patientServices.contactList} for:item="con">
+                              <div key={con.Id}>
+                            <span>
+                            <b>Therapy Services</b>
+                            <div><b>Speciality</b>:{con.Specialty__c}</div>
+                            <div><b>Day Of week</b> : {con.Preferred_day_of_the_week__c}</div>
+                            <div><b>Message</b> : {con.Message__c}</div>
+                            <br>
+                            <b>Nursing Services</b>
+                            <div><b>Supportive Care </b>:{con.Supportive_Care__c}</div>
+                            <div><b>Service</b>:{con.Service__c}</div>
+                            <div><b>Day Of Week</b> :{con.Preferred_day_of_the_week_Nursing__c}</div>
+                            <div><b>Message</b> : {con.Message_Nursing__c}</div>
+                        </span>
+                        <br>
+                        </div>
+                        </template>
+                </template>
+            </template>                  
+        </template>  
+                <template if:true={error}>
+                    {error}
+                </template>
+    </div>
+</lightning-card>
+</lightning-tab>
+
+</lightning-tabset>
+</lightning-card>
+</template>

@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Simple Interest Calculator" icon-name="standard:account">
+        <lightning-input label="Enter Amount" onchange={amount} value={Amount}></lightning-input>
+        <lightning-input label="Enter Rate Of Interest" onchange={rateOfInterest} value={rate}></lightning-input>
+        <lightning-input label="Enter Term Of Investment" onchange={term} value={Term}></lightning-input>
+        <lightning-button-group>
+            <lightning-button  label="Calculate" title="calculate" onclick={calculate}></lightning-button>
+            <lightning-button  label="Clear" title="Clear" onclick={clear}></lightning-button>
+        </lightning-button-group>
+    </lightning-card>
+    
+</template>

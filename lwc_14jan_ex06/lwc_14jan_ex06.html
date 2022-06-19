@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Simple Array of even numbers using for each">
+        <template for:each={evnum} for:item=a>
+            <p key={a}>{a}</p>
+        </template>
+
+    </lightning-card>
+    <lightning-card title="Simple array of Even numbers using iterator">
+        <template iterator:item={evnum} >
+            <p key={item.value}>{item.value}</p>
+
+        </template> 
+
+    </lightning-card>
+    <lightning-card title="Complex Json Data"> 
+        Student Name : {student.Name}<p></p>
+        Student Age : {student.Age}<p></p>
+        Student Salary : {student.Salary} <p></p>
+        Student City : {student.City}<p></p>
+
+    </lightning-card>
+    <lightning-card title="Arrays of multiple json data">
+        <template for:each={students} for:item=a>
+            <p key={a}>Student Name : {a.Name}</p>
+            <p key={a}>{a.Age}</p>
+            <p key={a}>{a.City}</p>
+            <p key={a}>{a.Salary}</p>
+        </template>
+
+    </lightning-card>
+
+    
+</template>

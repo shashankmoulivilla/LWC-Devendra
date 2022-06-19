@@ -1,0 +1,10 @@
+public inherited sharing class lwc_15jan_ex13 {
+    @AuraEnabled(cacheable=true)
+    
+    public static List<Contact>  findContacts( String searchtext) {
+
+        String key ='%'+ searchtext +'%';
+        return [select Id, Name,Phone,Email from Contact where firstname like :key];
+
+    }
+}
